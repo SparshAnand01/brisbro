@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>StudentStay — Find a Place That Fits You</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Inter,Arial,sans-serif;background:#f7f8fc;color:#182033}
+button,input,select{font:inherit}
+nav{height:72px;background:white;display:flex;align-items:center;justify-content:space-between;padding:0 7%;border-bottom:1px solid #e8eaf0;position:sticky;top:0;z-index:10}
+.logo{font-size:24px;font-weight:800;color:#4f46e5}.logo span{color:#111827}
+.navlinks{display:flex;gap:28px;align-items:center}.navlinks a{text-decoration:none;color:#5b6475;font-weight:600}
+.login{border:1px solid #d9dce5;background:white;padding:10px 18px;border-radius:10px;font-weight:700}
+.hero{padding:72px 7% 52px;background:linear-gradient(135deg,#eef0ff,#fff)}
+.hero h1{font-size:54px;max-width:720px;line-height:1.05;margin-bottom:18px}
+.hero h1 span{color:#4f46e5}.hero p{font-size:18px;color:#667085;max-width:650px;line-height:1.6}
+.searchbox{background:white;margin-top:34px;padding:18px;border-radius:18px;box-shadow:0 15px 40px #2222;display:flex;gap:12px;max-width:1000px}
+.searchbox input,.searchbox select{border:1px solid #dddfea;padding:14px;border-radius:10px;min-width:0;flex:1;color:#4b5563}
+.primary{background:#4f46e5;color:white;border:0;border-radius:10px;padding:14px 25px;font-weight:800;cursor:pointer}
+section{padding:55px 7%}.sectionhead{display:flex;justify-content:space-between;align-items:end;margin-bottom:25px}.sectionhead h2{font-size:30px}.muted{color:#727b8e}
+.filters{display:flex;gap:10px;margin-bottom:25px;flex-wrap:wrap}.filter{background:white;border:1px solid #e0e3eb;padding:9px 15px;border-radius:20px;color:#596174;cursor:pointer}
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+.card{background:white;border-radius:18px;overflow:hidden;border:1px solid #e8eaf0;box-shadow:0 5px 18px #1720330b}.photo{height:190px;background:linear-gradient(135deg,#d9ddff,#b9c3e9);position:relative}.badge{position:absolute;top:14px;left:14px;background:#111827;color:white;padding:7px 10px;border-radius:8px;font-size:12px;font-weight:800}.heart{position:absolute;right:14px;top:14px;background:white;border:0;border-radius:50%;width:36px;height:36px;cursor:pointer}
+.cardbody{padding:18px}.cardbody h3{font-size:20px;margin-bottom:7px}.location{color:#727b8e;font-size:14px;margin-bottom:14px}.tags{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px}.tag{font-size:12px;background:#f0f1f7;padding:6px 8px;border-radius:6px}.price{font-size:21px;font-weight:800}.price small{font-size:13px;color:#777;font-weight:500}.cardfooter{display:flex;justify-content:space-between;align-items:center;margin-top:16px}.view{background:#eef0ff;color:#4f46e5;border:0;padding:9px 13px;border-radius:8px;font-weight:800;cursor:pointer}
+.features{background:white}.featuregrid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}.feature{padding:24px;border:1px solid #e8eaf0;border-radius:16px}.icon{font-size:28px;margin-bottom:12px}.feature h3{margin-bottom:7px}.feature p{font-size:14px;color:#6b7280;line-height:1.5}
+.roommate{background:#111827;color:white;border-radius:24px;padding:45px;display:flex;justify-content:space-between;gap:30px;align-items:center}.roommate p{color:#c5cad5;line-height:1.6;max-width:600px;margin-top:10px}
+footer{background:#fff;border-top:1px solid #e7e9ef;padding:30px 7%;color:#737b8d;display:flex;justify-content:space-between}
+.modal{display:none;position:fixed;inset:0;background:#0008;z-index:20;align-items:center;justify-content:center}.modalbox{background:white;padding:30px;border-radius:18px;width:min(450px,90%)}.modalbox h2{margin-bottom:10px}.close{float:right;border:0;background:none;font-size:24px;cursor:pointer}
+@media(max-width:850px){.cards,.featuregrid{grid-template-columns:1fr}.hero h1{font-size:40px}.searchbox{flex-direction:column}.navlinks{display:none}.roommate{flex-direction:column;align-items:flex-start}footer{flex-direction:column;gap:10px}}
+</style>
+</head>
+<body>
+<nav>
+  <div class="logo">Student<span>Stay</span></div>
+  <div class="navlinks"><a href="#homes">Find a Home</a><a href="#features">How it works</a><a href="#roommate">Roommates</a><a href="#list">List Property</a></div>
+  <button class="login" onclick="openModal('Login')">Log in</button>
+</nav>
+
+<header class="hero">
+  <h1>Find a place that <span>fits your student life.</span></h1>
+  <p>Verified student rooms, PGs and hostels near your college — with transparent pricing, real photos and roommate matching.</p>
+  <div class="searchbox">
+    <input id="city" placeholder="📍 City or college (e.g. Gurugram)">
+    <select id="room"><option>Any room type</option><option>Single</option><option>2 Sharing</option><option>3 Sharing</option></select>
+    <select id="budget"><option>Any budget</option><option>Under ₹8,000</option><option>₹8,000–₹12,000</option><option>₹12,000+</option></select>
+    <button class="primary" onclick="searchHomes()">Search homes</button>
+  </div>
+</header>
+
+<section id="homes">
+  <div class="sectionhead"><div><h2>Top stays near you</h2><p class="muted">Verified places students actually recommend</p></div><span id="resultText" class="muted">6 stays</span></div>
+  <div class="filters"><button class="filter" onclick="filterCards('all')">All</button><button class="filter" onclick="filterCards('hostel')">Hostels</button><button class="filter" onclick="filterCards('pg')">PGs</button><button class="filter" onclick="filterCards('premium')">Premium</button></div>
+  <div class="cards" id="cards">
+    <article class="card" data-type="premium"><div class="photo"><span class="badge">✓ VERIFIED</span><button class="heart" onclick="this.innerText=this.innerText==='♡'?'♥':'♡'">♡</button></div><div class="cardbody"><h3>Campus Heights</h3><p class="location">📍 1.2 km from Vedam School of Technology</p><div class="tags"><span class="tag">Wi-Fi</span><span class="tag">AC</span><span class="tag">Gym</span><span class="tag">Food</span></div><div class="cardfooter"><div class="price">₹11,500 <small>/month</small></div><button class="view" onclick="openModal('Campus Heights')">View</button></div></div></article>
+    <article class="card" data-type="pg"><div class="photo"><span class="badge">✓ VERIFIED</span><button class="heart" onclick="this.innerText=this.innerText==='♡'?'♥':'♡'">♡</button></div><div class="cardbody"><h3>UrbanNest PG</h3><p class="location">📍 800 m from campus</p><div class="tags"><span class="tag">2 Sharing</span><span class="tag">Laundry</span><span class="tag">Food</span></div><div class="cardfooter"><div class="price">₹8,900 <small>/month</small></div><button class="view" onclick="openModal('UrbanNest PG')">View</button></div></div></article>
+    <article class="card" data-type="hostel"><div class="photo"><span class="badge">✓ VERIFIED</span><button class="heart" onclick="this.innerText=this.innerText==='♡'?'♥':'♡'">♡</button></div><div class="cardbody"><h3>StudentHub Hostel</h3><p class="location">📍 2.1 km from campus</p><div class="tags"><span class="tag">24/7 Security</span><span class="tag">Mess</span><span class="tag">Common Room</span></div><div class="cardfooter"><div class="price">₹7,500 <small>/month</small></div><button class="view" onclick="openModal('StudentHub Hostel')">View</button></div></div></article>
+    <article class="card" data-type="premium"><div class="photo"><span class="badge">★ TOP RATED</span><button class="heart" onclick="this.innerText=this.innerText==='♡'?'♥':'♡'">♡</button></div><div class="cardbody"><h3>Green Valley Residence</h3><p class="location">📍 1.7 km from campus</p><div class="tags"><span class="tag">Single Room</span><span class="tag">AC</span><span class="tag">Study Desk</span></div><div class="cardfooter"><div class="price">₹13,200 <small>/month</small></div><button class="view" onclick="openModal('Green Valley Residence')">View</button></div></div></article>
+    <article class="card" data-type="pg"><div class="photo"><span class="badge">✓ VERIFIED</span><button class="heart" onclick="this.innerText=this.innerText==='♡'?'♥':'♡'">♡</button></div><div class="cardbody"><h3>Scholar's Nest</h3><p class="location">📍 1.4 km from campus</p><div class="tags"><span class="tag">Quiet Zone</span><span class="tag">Wi-Fi</span><span class="tag">Laundry</span></div><div class="cardfooter"><div class="price">₹9,800 <small>/month</small></div><button class="view" onclick="openModal('Scholar’s Nest')">View</button></div></div></article>
+    <article class="card" data-type="hostel"><div class="photo"><span class="badge">✓ VERIFIED</span><button class="heart" onclick="this.innerText=this.innerText==='♡'?'♥':'♡'">♡</button></div><div class="cardbody"><h3>NextGen Hostel</h3><p class="location">📍 2.8 km from campus</p><div class="tags"><span class="tag">Gaming Room</span><span class="tag">Mess</span><span class="tag">Parking</span></div><div class="cardfooter"><div class="price">₹6,900 <small>/month</small></div><button class="view" onclick="openModal('NextGen Hostel')">View</button></div></div></article>
+  </div>
+</section>
+
+<section class="features" id="features">
+  <div class="sectionhead"><div><h2>More than a room</h2><p class="muted">Built around the problems students face when moving to a new city.</p></div></div>
+  <div class="featuregrid">
+    <div class="feature"><div class="icon">🛡️</div><h3>Verified homes</h3><p>Every listed property can be verified with owner, photos, amenities and student reviews.</p></div>
+    <div class="feature"><div class="icon">👥</div><h3>Roommate matching</h3><p>Match with students based on sleep schedule, cleanliness, food habits and lifestyle.</p></div>
+    <div class="feature"><div class="icon">📍</div><h3>College distance</h3><p>Compare homes by actual travel distance and estimated commute time to campus.</p></div>
+    <div class="feature"><div class="icon">💳</div><h3>Transparent pricing</h3><p>See rent, deposit, food and other charges before you schedule a visit.</p></div>
+  </div>
+</section>
+
+<section id="roommate">
+  <div class="roommate">
+    <div><h2>Find a roommate you'll actually get along with.</h2><p>Answer 8 simple questions and StudentStay creates a compatibility score based on lifestyle, study habits and room preferences.</p></div>
+    <button class="primary" onclick="openModal('Roommate Match')">Find my roommate →</button>
+  </div>
+</section>
+
+<section id="list">
+  <div class="roommate" style="background:#eef0ff;color:#182033">
+    <div><h2>Have a student property?</h2><p style="color:#667085">List your PG, hostel or student apartment and reach verified students near colleges.</p></div>
+    <button class="primary" onclick="openModal('List Property')">List your property</button>
+  </div>
+</section>
+
+<footer><strong>StudentStay</strong><span>© 2026 StudentStay · Built for students, by students.</span></footer>
+
+<div class="modal" id="modal"><div class="modalbox"><button class="close" onclick="closeModal()">×</button><h2 id="modalTitle"></h2><p style="color:#667085;line-height:1.6;margin:12px 0 20px">This is a demo interaction. In the real product, this would connect to verified listings, student profiles and booking/visit scheduling.</p><button class="primary" onclick="closeModal()">Continue</button></div></div>
+
+<script>
+function openModal(title){document.getElementById('modalTitle').innerText=title;document.getElementById('modal').style.display='flex'}
+function closeModal(){document.getElementById('modal').style.display='none'}
+function filterCards(type){
+ document.querySelectorAll('.card').forEach(c=>c.style.display=(type==='all'||c.dataset.type===type)?'block':'none');
+ document.getElementById('resultText').innerText=type==='all'?'6 stays':'Filtered stays';
+}
+function searchHomes(){
+ const city=document.getElementById('city').value.trim();
+ document.getElementById('resultText').innerText=city?`Showing stays for ${city}`:'6 stays';
+ document.getElementById('homes').scrollIntoView({behavior:'smooth'});
+}
+</script>
+</body>
+</html>
