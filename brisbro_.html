@@ -1,151 +1,534 @@
+
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+
+    <title>Bistro | Delivered at Your Doorstep</title>
+
     <style>
-        header{
-            height: 100vh;
+        /* General styling */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            color: #222;
+            overflow-x: hidden;
+        }
+
+        /* Navigation bar */
+        nav {
             width: 100%;
-            background-image: url(./bisbro.png);
-            background-size: cover;
-            background-position: center bottom;
-            text-align: center;
-
-        }
-        #DOORSTEP{
-            font-size: 50px;
-            font-weight: bolder;
-        }
-        #Enjoy{
-            font-size: 20px;
-        }
-        #App{
-            background-color: white;padding:15px;
-            cursor: pointer;
-            border-radius: 15px;
-
-        }
-        #App:hover{
-        background-color: green;
-         color: white !important;}
-        
-        h1{margin: 5px;
-        line-height: 1;}
-        p{
-            margin: 10px;
-           
-        }
-        .health{font-size:50px ;
-        font-weight: bolder;}
-         .li{
-            font-size: 25px;
-            font-weight: lighter;
-        }
-        .img{
-        width: 100%;}
-        #phone{height: 500px;}
-        #aimg{height: 400px;}
-        #aimg{
-            height: 300px;
-        }
-        .foot{padding-left: 300px;
-
-        font-size: 20px;}
-        ul{list-style: none;}
-        li::before{
-            content: "✦";
-            padding-right: 10px;
-        }
-        #h1{width: 96vw;
-            display: inline;
+            min-height: 75px;
+            padding: 10px 6%;
             background-color: rgb(0, 204, 102);
-            margin-top: 0px;
-            
-            
-            position: fixed;
-            
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 100;
         }
-        #but{
-            
-            padding: 10px;
-         background-color: black;
-            color: white;
-            border-radius: 10px;
-            font-weight: 800;
-        }
-       
-            
-        
 
+        .logo {
+            height: 55px;
+            width: auto;
+            object-fit: contain;
+            display: block;
+        }
+
+        .nav-button {
+            padding: 12px 22px;
+            background-color: black;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 15px;
+            font-weight: bold;
+            cursor: pointer;
+            text-decoration: none;
+            transition: 0.3s;
+        }
+
+        .nav-button:hover {
+            background-color: white;
+            color: black;
+        }
+
+        /* Hero section */
+        header {
+            min-height: 90vh;
+            width: 100%;
+            background-image: url("./bisbro.png");
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 60px 20px;
+        }
+
+        .hero-content {
+            max-width: 650px;
+            color: white;
+        }
+
+        .hero-logo {
+            height: 100px;
+            width: auto;
+            object-fit: contain;
+            margin-bottom: 25px;
+        }
+
+        #DOORSTEP {
+            font-size: clamp(38px, 5vw, 65px);
+            font-weight: 900;
+            line-height: 1.05;
+            margin-bottom: 20px;
+        }
+
+        #Enjoy {
+            font-size: clamp(17px, 2vw, 21px);
+            line-height: 1.6;
+            margin-bottom: 28px;
+        }
+
+        .app-button {
+            display: inline-block;
+            padding: 15px 28px;
+            background-color: white;
+            color: green;
+            border-radius: 12px;
+            text-decoration: none;
+            font-size: 17px;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .app-button:hover {
+            background-color: green;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        /* Menu section */
+        .menu-section {
+            padding: 45px 5%;
+            background-color: #f7f7f7;
+        }
+
+        .menu-images {
+            max-width: 1250px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 25px;
+            align-items: stretch;
+        }
+
+        .menu-images img {
+            width: 100%;
+            height: 350px;
+            object-fit: cover;
+            object-position: center;
+            display: block;
+            border-radius: 16px;
+        }
+
+        /* General feature sections */
+        .feature-section {
+            width: 100%;
+            max-width: 1250px;
+            margin: 0 auto;
+            padding: 75px 6%;
+        }
+
+        .feature-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 55px;
+        }
+
+        .feature-row.reverse {
+            flex-direction: row-reverse;
+        }
+
+        .feature-text,
+        .feature-image {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .feature-text h2 {
+            font-size: clamp(32px, 4vw, 48px);
+            line-height: 1.15;
+            margin-bottom: 25px;
+            color: #171717;
+        }
+
+        .feature-text ul {
+            list-style: none;
+        }
+
+        .feature-text li {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            font-size: 19px;
+            line-height: 1.6;
+            margin-bottom: 18px;
+        }
+
+        .feature-text li::before {
+            content: "✦";
+            color: #00b85c;
+            font-size: 20px;
+            flex-shrink: 0;
+        }
+
+        /* Feature images: consistent dimensions */
+        .feature-image {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .feature-image img {
+            display: block;
+            width: 100%;
+            height: 350px;
+            object-fit: contain;
+            object-position: center;
+        }
+
+        /* Footer */
+        footer {
+            background-color: #111;
+            color: white;
+            padding: 45px 6%;
+            text-align: center;
+        }
+
+        .footer-logo {
+            height: 55px;
+            width: auto;
+            margin-bottom: 20px;
+        }
+
+        footer p {
+            color: #ccc;
+            line-height: 1.7;
+            margin-bottom: 20px;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 25px;
+            margin: 20px 0;
+        }
+
+        .footer-links a {
+            color: white;
+            text-decoration: none;
+        }
+
+        .footer-links a:hover {
+            color: #00cc66;
+        }
+
+        /* Tablet and mobile screens */
+        @media (max-width: 768px) {
+            nav {
+                min-height: 65px;
+                padding: 10px 5%;
+            }
+
+            .logo {
+                height: 43px;
+            }
+
+            .nav-button {
+                padding: 10px 14px;
+                font-size: 13px;
+            }
+
+            header {
+                min-height: 75vh;
+                background-position: center;
+            }
+
+            .hero-logo {
+                height: 80px;
+            }
+
+            .menu-images {
+                grid-template-columns: 1fr;
+                gap: 18px;
+            }
+
+            .menu-images img {
+                height: 280px;
+            }
+
+            .feature-section {
+                padding: 50px 7%;
+            }
+
+            .feature-row,
+            .feature-row.reverse {
+                flex-direction: column;
+                gap: 25px;
+                align-items: stretch;
+            }
+
+            .feature-text,
+            .feature-image {
+                width: 100%;
+            }
+
+            .feature-text h2 {
+                font-size: 35px;
+            }
+
+            .feature-text li {
+                font-size: 17px;
+            }
+
+            .feature-image img {
+                height: 280px;
+            }
+        }
+
+        /* Small mobile screens */
+        @media (max-width: 400px) {
+            #DOORSTEP {
+                font-size: 36px;
+            }
+
+            #Enjoy {
+                font-size: 16px;
+            }
+
+            .feature-text h2 {
+                font-size: 30px;
+            }
+
+            .menu-images img {
+                height: 230px;
+            }
+        }
     </style>
 </head>
+
 <body>
-    <div id="h1">
-     <img src="./bistro logo.webp" alt="" style="height: 60px;">
-    <span style="padding-left: 1250px;"><button id="but">Get The App</button></span>
-    </div>
-    <header>
-        <img src="./bistro logo.webp" style="height: 100px;">
-        <p style="color: white;" id="DOORSTEP">DELIVERED AT YOUR <br> DOORSTEP</p>
-        <p style="color: white;" id="Enjoy">Enjoy delicious snacks ,meals <br> and drinks delivered,prepared in a <br> hygenic enviroment nearby</p>
-        <button style="color: green;" id="App">Get the App</button>
 
-    
+    <!-- Navigation bar -->
+    <nav>
+        <a href="#home" aria-label="Bistro home">
+            <img
+                src="./bistro logo.webp"
+                alt="Bistro Logo"
+                class="logo">
+        </a>
+
+        <a
+            class="nav-button"
+            href="https://bistro.blinkit.com/">
+            Get The App
+        </a>
+    </nav>
+
+    <!-- Hero section -->
+    <header id="home">
+        <div class="hero-content">
+
+            <img
+                src="./bistro logo.webp"
+                alt="Bistro Logo"
+                class="hero-logo">
+
+            <h1 id="DOORSTEP">
+                DELIVERED AT YOUR<br>
+                DOORSTEP
+            </h1>
+
+            <p id="Enjoy">
+                Enjoy delicious snacks, meals and drinks
+                delivered to your doorstep, prepared in
+                a hygienic environment nearby.
+            </p>
+
+            <a
+                class="app-button"
+                href="https://bistro.blinkit.com/">
+                Get the App
+            </a>
+
+        </div>
     </header>
-    <main><div style="display: inline-block;">
-        <img src="https://cdn.grofers.com/layout-engine/v2/2024-11/mob---menu_v4_1.jpg" class="img"><img src="https://cdn.grofers.com/layout-engine/v2/2024-11/mob---menu-2.jpg" class="img"><br>
 
-    </div> 
-    <div style="display: inline-block;">
-    
-    <span>
-    <span>
-        
-    <h1 class="health">Health & Hygiene</h1>
-    <span>
+    <main>
 
-    <ul>
-        <li class="li">High-quality ingredients for tate and nature</li>
-        <li class="li">Balanced,delicious meals for all kinds of dietary needs.</li>
-        <li class="li">Prepared in hygienic kitches</li>
-    </ul> </div></span>
-    <span>
-        <img src="https://cdn.grofers.com/da/bistro-assets/bistro%20coming%20soon/mob%20-%20Health%20&%20Hygiene.png" loading="lazy" style="float: right;" id="aimg" >
-    </span><br>
-    <div style="display: inline;">
-        <span>
-    <span><br><br><br><br><br>
-        
-    <h1 class="health">Sustainability</h1>
-    <span>
+        <!-- Food menu images -->
+        <section class="menu-section">
+            <div class="menu-images">
 
-    <ul>
-        <li class="li">Eco-friendly , recyclable packaging.</li>
-        <li class="li">Responsibly sourced, transparent ingredients.</li>
-        <li class="li">Reduced carbon footprint with green practices.</li>
-    </ul> </div></span>
-    <span>
-        <img loading="lazy" src="https://cdn.grofers.com/layout-engine/v2/2024-12/mob---bistro_pack-(1).png" alt="highlight image" style="float: right;"  id="aimg">
-    </span><br>
-    
-    </div><br>
-    <br><br>
-    <h1 class="health">Sustainability</h1>
-    <span>
+                <img
+                    src="https://cdn.grofers.com/layout-engine/v2/2024-11/mob---menu_v4_1.jpg"
+                    alt="Bistro food menu"
+                    loading="lazy">
 
-    <ul>
-        <li class="li">Eco-friendly , recyclable packaging.</li>
-        <li class="li">Responsibly sourced, transparent ingredients.</li>
-        <li class="li">Reduced carbon footprint with green practices.</li>
-    </ul> </div></span>
-    <span><br>
-       
-    </span>
-     </main>
-     
-    
-    
+                <img
+                    src="https://cdn.grofers.com/layout-engine/v2/2024-11/mob---menu-2.jpg"
+                    alt="Explore Bistro food"
+                    loading="lazy">
+
+            </div>
+        </section>
+
+        <!-- Health and hygiene -->
+        <section class="feature-section">
+            <div class="feature-row">
+
+                <div class="feature-text">
+                    <h2>Health &amp; Hygiene</h2>
+
+                    <ul>
+                        <li>
+                            High-quality ingredients for
+                            great taste and nutrition.
+                        </li>
+
+                        <li>
+                            Balanced, delicious meals for
+                            different dietary needs.
+                        </li>
+
+                        <li>
+                            Prepared in hygienic kitchens.
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="feature-image">
+                    <img
+                        src="https://cdn.grofers.com/da/bistro-assets/bistro%20coming%20soon/mob%20-%20Health%20%26%20Hygiene.png"
+                        alt="Bistro health and hygiene"
+                        loading="lazy">
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Sustainability -->
+        <section class="feature-section">
+            <div class="feature-row reverse">
+
+                <div class="feature-text">
+                    <h2>Sustainability</h2>
+
+                    <ul>
+                        <li>
+                            Eco-friendly, recyclable packaging.
+                        </li>
+
+                        <li>
+                            Responsibly sourced ingredients.
+                        </li>
+
+                        <li>
+                            Reduced carbon footprint through
+                            greener practices.
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="feature-image">
+                    <img
+                        src="https://cdn.grofers.com/layout-engine/v2/2024-12/mob---bistro_pack-(1).png"
+                        alt="Bistro sustainable packaging"
+                        loading="lazy">
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Speed and convenience -->
+        <section class="feature-section">
+            <div class="feature-row">
+
+                <div class="feature-text">
+                    <h2>Quick &amp; Convenient</h2>
+
+                    <ul>
+                        <li>
+                            Delicious food and beverages
+                            delivered to your doorstep.
+                        </li>
+
+                        <li>
+                            Convenient ordering for your
+                            everyday cravings.
+                        </li>
+
+                        <li>
+                            An easy way to discover snacks,
+                            meals and drinks.
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="feature-image">
+                    <img
+                        src="https://cdn.grofers.com/layout-engine/v2/2024-11/mob---menu_v4_1.jpg"
+                        alt="Discover Bistro food"
+                        loading="lazy">
+                </div>
+
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer>
+
+        <img
+            src="./bistro logo.webp"
+            alt="Bistro Logo"
+            class="footer-logo">
+
+        <p>
+            Delicious snacks, meals and drinks,
+            delivered to your doorstep.
+        </p>
+
+        <div class="footer-links">
+            <a href="https://bistro.blinkit.com/">Home</a>
+            <a href="https://bistro.blinkit.com/about-us">About</a>
+            <a href="https://bistro.blinkit.com/privacy-policy">
+                Privacy
+            </a>
+            <a href="https://bistro.blinkit.com/terms-of-use">
+                Terms
+            </a>
+        </div>
+
+        <p>
+            &copy; 2026 Bistro. All rights reserved.
+        </p>
+
+    </footer>
+
 </body>
 </html>
